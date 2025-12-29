@@ -1,0 +1,285 @@
+/* ======================================================
+   🌗 GLOBAL THEME VARIABLES (LIGHT & DARK MODES)
+   ====================================================== */
+
+/* ---------- LIGHT MODE ---------- */
+:root {
+  --background: #f5f7fa;
+  --foreground: #1a1a1a;
+
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.1);
+
+  --navbar-bg: rgba(255, 255, 255, 0.6);
+  --accent: #0d6efd;
+
+  --shadow: rgba(0, 0, 0, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- DARK MODE ---------- */
+html[data-theme="dark"] {
+  --background: #0f0f16;
+  --foreground: #e4e4e7;
+
+  --card-bg: #181824;
+  --card-border: rgba(255, 255, 255, 0.08);
+
+  --navbar-bg: rgba(20, 20, 28, 0.6);
+  --accent: #4dabff;
+
+  --shadow: rgba(0, 0, 0, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+/* ======================================================
+   GLOBAL STYLES THAT REACT TO THE THEME VARIABLES
+   ====================================================== */
+
+body {
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Cards */
+.card,
+.issue-card {
+  background: var(--card-bg) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--card-border) !important;
+  box-shadow: 0 4px 12px var(--shadow) !important;
+  padding: 1rem;
+  border-radius: 12px;
+  transition: 0.3s ease;
+}
+
+/* Navbar (Glass effect) */
+.glass-navbar {
+  background: var(--navbar-bg) !important;
+  backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 14px var(--shadow);
+  transition: 0.3s ease;
+}
+
+/* Buttons */
+button,
+.btn {
+  transition: 0.3s;
+}
+
+/* Forms */
+input,
+select,
+textarea {
+  background: var(--card-bg) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--card-border) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.3) !important;
+}
+
+/* Map */
+.leaflet-container {
+  background: var(--card-bg) !important;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+
+.theme-toggle-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+html[data-theme='dark'] .theme-toggle-btn svg {
+  filter: drop-shadow(0 0 4px #ffeb3b90);
+}
+
+html[data-theme='light'] .theme-toggle-btn svg {
+  filter: drop-shadow(0 0 4px #0d6efd60);
+}
+
+
+/* ==========================================================
+   🌗 Global Theme System (Light + Dark Mode)
+   ========================================================== */
+
+/* ---------- Light Mode ---------- */
+:root {
+  --background: #f5f7fa;
+  --foreground: #1a1a1a;
+
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.1);
+
+  --navbar-bg: rgba(255, 255, 255, 0.6);
+  --accent: #0d6efd;
+
+  --shadow: rgba(0, 0, 0, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- Dark Mode ---------- */
+html[data-theme="dark"] {
+  --background: #0f0f16;
+  --foreground: #e4e4e7;
+
+  --card-bg: #181824;
+  --card-border: rgba(255, 255, 255, 0.08);
+
+  --navbar-bg: rgba(20, 20, 28, 0.6);
+  --accent: #4dabff;
+
+  --shadow: rgba(0, 0, 0, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+/* ==========================================================
+   Apply Styles Globally
+   ========================================================== */
+
+body {
+  background: var(--background) !important;
+  color: var(--foreground) !important;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Cards */
+.card,
+.issue-card,
+.list-group-item {
+  background: var(--card-bg) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--card-border) !important;
+  box-shadow: 0 4px 12px var(--shadow) !important;
+}
+
+/* Navbar (Glass Effect) */
+.glass-navbar {
+  background: var(--navbar-bg) !important;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 6px 18px var(--shadow);
+  transition: 0.3s ease;
+}
+
+/* Buttons */
+.btn,
+button {
+  transition: 0.3s ease;
+}
+
+/* Inputs & Forms */
+input,
+textarea,
+select {
+  background: var(--card-bg) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--card-border) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.35) !important;
+}
+
+/* Modal */
+.modal-content {
+  background: var(--card-bg) !important;
+  color: var(--foreground) !important;
+  border-radius: 12px !important;
+  border: 1px solid var(--card-border) !important;
+  box-shadow: 0 4px 16px var(--shadow) !important;
+}
+
+/* Map container */
+.leaflet-container {
+  background: var(--card-bg) !important;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* Dropdowns */
+.dropdown-menu {
+  background: var(--card-bg) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--card-border) !important;
+}
+
+/* Text adjustments */
+.text-muted {
+  color: var(--foreground) !important;
+  opacity: 0.6 !important;
+}
+
+/* Admin user management theme styles */
+.theme-card {
+  background: var(--card-bg);
+  color: var(--foreground);
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 6px 18px var(--shadow);
+}
+
+.theme-table thead {
+  background: var(--table-header-bg);
+  color: var(--foreground);
+}
+
+.theme-table tbody tr {
+  background: var(--table-row-bg);
+  color: var(--foreground);
+  transition: 0.25s ease;
+}
+
+.theme-table tbody tr:hover {
+  background: var(--table-row-hover);
+  transform: scale(1.005);
+}
+.map-card {
+  height: 300px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0b1220;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.issues-panel {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.issue-card {
+  background: #0f172a;
+  border-left: 4px solid #3b82f6;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.button-primary {
+  background-color: var(--accent) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 12px var(--shadow) !important;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+} 
+.button-primary:hover {
+  background-color: darken(var(--accent), 10%) !important;
+  box-shadow: 0 6px 16px var(--shadow) !important;
+}

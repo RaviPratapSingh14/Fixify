@@ -1,0 +1,14 @@
+/* ===============================
+   LEAFLET MAP FIX
+=============================== */
+.leaflet-container {
+  height: 500px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.map-card {
+  min-height: 500px;
+  border-radius: 14px;
+  overflow: hidden;
+}
