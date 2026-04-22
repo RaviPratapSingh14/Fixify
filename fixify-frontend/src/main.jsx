@@ -13,6 +13,9 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import Profile from "./pages/Profile.jsx";
+import MyIssues from "./pages/MyIssues.jsx";
+import Settings from "./pages/Settings.jsx";
 
 // ✅ Admin Pages
 import AdminDashboard from "./pages/AdminDashboard.jsx";
@@ -42,6 +45,33 @@ createRoot(document.getElementById("root")).render(
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-issues"
+          element={
+            <ProtectedRoute>
+              <MyIssues />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute>
           }
         />

@@ -1,4 +1,3 @@
-// src/main/java/com/fixify/security/JwtAuthenticationFilter.java
 package com.fixify.security;
 
 import io.jsonwebtoken.Claims;
@@ -25,6 +24,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
+    // ✅ FIX: completely skip filter for OPTIONS + /auth/**
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+
+        return request.getMethod().equalsIgnoreCase("OPTIONS")
+                || path.startsWith("/auth/");
+    }
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -32,23 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain chain
     ) throws ServletException, IOException {
 
-        String path = request.getServletPath();
-
-        // ✅ 1. Skip authentication for auth endpoints
-        if (path.startsWith("/auth")) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        // ✅ 2. Skip CORS preflight requests
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            chain.doFilter(request, response);
-            return;
-        }
-
         String header = request.getHeader("Authorization");
 
-        // ✅ 3. If no token → continue (Spring Security will handle access)
+        // ✅ If no token → continue
         if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
@@ -72,7 +66,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(auth);
 
         } catch (Exception e) {
-            // ❌ Invalid token → clear context
             SecurityContextHolder.clearContext();
         }
 

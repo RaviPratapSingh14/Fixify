@@ -1,4 +1,3 @@
-// src/main/java/com/fixify/config/SecurityConfig.java
 package com.fixify.config;
 
 import com.fixify.security.JwtAuthenticationFilter;
@@ -30,15 +29,12 @@ public class SecurityConfig {
         this.jwtFilter = jwtFilter;
     }
 
-    // ===============================
-    // 🔐 SECURITY FILTER CHAIN
-    // ===============================
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ IMPORTANT
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(sm ->
                 sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
@@ -48,41 +44,35 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(
-                jwtFilter,
-                UsernamePasswordAuthenticationFilter.class
-            );
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    // ===============================
-    // 🔐 PASSWORD ENCODER
-    // ===============================
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ===============================
-    // 🌍 CORS CONFIG (REQUIRED)
-    // ===============================
+    // ✅ FIX: use allowedOriginPatterns instead of allowedOrigins
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "http://localhost:3000"
-        ));
+
+        config.setAllowedOriginPatterns(List.of("*")); // 🔥 FIX
+
         config.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "OPTIONS"
         ));
+
         config.setAllowedHeaders(List.of("*"));
+
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", config);
 
         return source;

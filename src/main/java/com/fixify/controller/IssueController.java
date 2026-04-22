@@ -32,8 +32,12 @@ public class IssueController {
     @GetMapping
     public List<Issue> getAll(
             @RequestParam(required = false) String status,
-            @RequestParam(required = false) String assignedTo
+            @RequestParam(required = false) String assignedTo,
+            @RequestParam(required = false) String createdBy
     ) {
+        if (createdBy != null) {
+            return service.getByCreatedBy(createdBy);
+        }
         if (assignedTo != null) {
             return service.getByAssignedUser(assignedTo);
         }

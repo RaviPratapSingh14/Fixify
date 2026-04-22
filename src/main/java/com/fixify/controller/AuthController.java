@@ -13,14 +13,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 public class AuthController {
 
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
     private final JwtUtil jwtUtil;
 
-    // ✅ Inject admin secret from properties
     @Value("${fixify.admin.secret}")
     private String adminSecret;
 
@@ -34,9 +32,6 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ===============================
-    // SIGNUP
-    // ===============================
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody Map<String, String> req) {
 
@@ -50,7 +45,6 @@ public class AuthController {
         user.setEmail(req.get("email"));
         user.setPassword(encoder.encode(req.get("password")));
 
-        // 🔐 Secure role assignment
         if ("ADMIN".equalsIgnoreCase(req.get("role"))) {
 
             if (!adminSecret.equals(req.get("adminSecret"))) {
@@ -74,9 +68,6 @@ public class AuthController {
         );
     }
 
-    // ===============================
-    // LOGIN
-    // ===============================
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> req) {
 

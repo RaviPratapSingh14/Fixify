@@ -17,6 +17,9 @@ export default function AdminIssueDetailModal({
   issue,
   onUpdated,
 }) {
+  const formatDateTime = (value) =>
+    value ? new Date(value).toLocaleString() : "Not available";
+
   const [assignee, setAssignee] = useState("");
   const [timeline, setTimeline] = useState([]);
   const [timelineLoading, setTimelineLoading] = useState(false);
@@ -131,9 +134,17 @@ export default function AdminIssueDetailModal({
         )}
 
         {/* ISSUE INFO */}
-        <p><strong>Title:</strong> {issue.title}</p>
-        <p><strong>Category:</strong> {issue.category}</p>
-        <p><strong>Address:</strong> {issue.address || "N/A"}</p>
+        <div className="p-3 bg-light rounded mb-3">
+          <h5 className="text-primary">{issue.title}</h5>
+          <p><strong>Description:</strong> {issue.description}</p>
+          <p><strong>Category:</strong> {issue.category}</p>
+          <p><strong>Priority:</strong> {issue.priority}</p>
+          <p><strong>Address:</strong> {issue.address || "N/A"}</p>
+          <p><strong>Reported by:</strong> {issue.createdBy}</p>
+          <p><strong>Reported Date & Time:</strong> {formatDateTime(issue.reportedAt || issue.createdAt)}</p>
+          <p><strong>Resolution Date & Time:</strong> {formatDateTime(issue.resolvedAt)}</p>
+          {issue.imageUrl && <p><strong>Image:</strong> <a href={issue.imageUrl} target="_blank" rel="noopener noreferrer">View Image</a></p>}
+        </div>
 
         {/* STATUS UPDATE */}
         <hr />
@@ -186,7 +197,7 @@ export default function AdminIssueDetailModal({
                 <ListGroup.Item key={idx}>
                   <strong>{t.event}</strong> — {t.message}
                   <div className="small text-muted">
-                    By {t.createdBy}
+                    By {t.createdBy} at {formatDateTime(t.timestamp)}
                   </div>
                 </ListGroup.Item>
               ))

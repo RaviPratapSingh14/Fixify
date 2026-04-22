@@ -48,6 +48,8 @@ public class Issue {
     private String imageUrl;
 
     private Long createdAt = System.currentTimeMillis();
+    private Long reportedAt = System.currentTimeMillis();
+    private Long resolvedAt;
 
     // ===============================
     // TIMELINE
@@ -218,5 +220,21 @@ public class Issue {
  
     public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getReportedAt() {
+        return reportedAt;
+    }
+
+    public void setReportedAt(Long reportedAt) {
+        this.reportedAt = reportedAt;
+    }
+
+    public Long getResolvedAt() {
+        return resolvedAt;
+    }
+
+    public void setResolvedAt(Long resolvedAt) {
+        this.resolvedAt = resolvedAt;
     }
 }

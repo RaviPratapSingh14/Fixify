@@ -27,11 +27,42 @@ export default function AdminDashboard() {
         inProgress: res.data.filter(i => i.status === "IN_PROGRESS").length,
         fixed: res.data.filter(i => i.status === "FIXED").length,
       });
+
+      // Check for new issues notification
+      const lastSeen = localStorage.getItem('lastSeenIssues') || 0;
+      const newIssues = res.data.filter(i => i.createdAt > lastSeen);
+      if (newIssues.length > 0) {
+        showNewIssueNotification(newIssues.length);
+        const maxCreatedAt = Math.max(...res.data.map(i => i.createdAt));
+        localStorage.setItem('lastSeenIssues', maxCreatedAt);
+      }
     } catch {
       setError("Failed to load issues. Backend might be offline.");
     } finally {
       setLoading(false);
     }
+  };
+
+  // ===============================
+  // SHOW NEW ISSUE NOTIFICATION
+  // ===============================
+  const showNewIssueNotification = (count) => {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(`New Issues Reported`, {
+        body: `You have ${count} new issue${count > 1 ? 's' : ''} to review.`,
+        icon: '/favicon.ico' // or some icon
+      });
+    } else if ('Notification' in window && Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification(`New Issues Reported`, {
+            body: `You have ${count} new issue${count > 1 ? 's' : ''} to review.`,
+            icon: '/favicon.ico'
+          });
+        }
+      });
+    }
+    // Fallback: could add in-app toast here
   };
 
   // ===============================

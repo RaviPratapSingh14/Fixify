@@ -12,4 +12,6 @@ public interface IssueRepository extends MongoRepository<Issue, String> {
     List<Issue> findByStatus(String status);
 
     List<Issue> findByAssignedTo(String assignedTo);
+
+    List<Issue> findByCreatedBy(String createdBy);
 }

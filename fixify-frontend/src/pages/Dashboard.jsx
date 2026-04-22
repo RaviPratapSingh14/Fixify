@@ -46,6 +46,8 @@ const markerIcon = new L.Icon({
 });
 
 const DEFAULT_CENTER = [22.9734, 78.6569];
+const formatDateTime = (value) =>
+  value ? new Date(value).toLocaleString() : "Not available";
 
 // ===============================
 // 🖱 MAP CLICK HANDLER
@@ -97,6 +99,7 @@ export default function Dashboard() {
     priority: "Medium",
     createdBy: username,
   });
+  const [draftReportedAt, setDraftReportedAt] = useState(() => Date.now());
 
   // ===============================
   // 📥 LOAD ISSUES
@@ -150,6 +153,7 @@ export default function Dashboard() {
   // ===============================
   const handleLocationPick = async ({ lat, lng }) => {
     setMarkerPos([lat, lng]);
+    setDraftReportedAt(Date.now());
 
     const address = await reverseGeocode(lat, lng);
 
@@ -240,11 +244,12 @@ export default function Dashboard() {
           </Alert>
         )}
 
-        <MapContainer
-          center={DEFAULT_CENTER}
-          zoom={5}
-          style={{ height: "70vh", width: "100%" }}
-        >
+        <div className="dashboard-map-shell">
+          <MapContainer
+            center={DEFAULT_CENTER}
+            zoom={5}
+            style={{ height: "70vh", width: "100%" }}
+          >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
           <ClickHandler onPick={handleLocationPick} />
@@ -274,10 +279,17 @@ export default function Dashboard() {
                 <strong>{issue.title}</strong>
                 <br />
                 {issue.category}
+                <br />
+                <small>
+                  Reported: {formatDateTime(issue.reportedAt || issue.createdAt)}
+                </small>
+                <br />
+                <small>Resolved: {formatDateTime(issue.resolvedAt)}</small>
               </Popup>
             </Marker>
           ))}
-        </MapContainer>
+          </MapContainer>
+        </div>
       </Container>
 
       <FloatingReportButton
@@ -296,7 +308,13 @@ export default function Dashboard() {
           <Modal.Title>📝 Report an Issue</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
+        <Modal.Body className="report-modal-body">
+          <div className="report-time-banner mb-3">
+            <strong>Reporting Date & Time:</strong> {formatDateTime(draftReportedAt)}
+            <br />
+            <strong>Resolution Date & Time:</strong> Will be set when status becomes FIXED.
+          </div>
+
           <Form.Group className="mb-2">
             <Form.Label>Issue Title *</Form.Label>
             <Form.Control
@@ -308,7 +326,7 @@ export default function Dashboard() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2">
+          <Form.Group className="mb-3">
             <Form.Label>Description *</Form.Label>
             <Form.Control
               as="textarea"
@@ -321,7 +339,7 @@ export default function Dashboard() {
             />
           </Form.Group>
 
-          <Row className="mb-2">
+          <Row className="mb-3">
             <Col>
               <Form.Group>
                 <Form.Label>Category</Form.Label>
@@ -361,12 +379,12 @@ export default function Dashboard() {
             </Col>
           </Row>
 
-          <Form.Group className="mb-2">
+          <Form.Group className="mb-3">
             <Form.Label>Detected Address</Form.Label>
             <Form.Control value={form.address} disabled />
           </Form.Group>
 
-          <Form.Group className="mb-2">
+          <Form.Group className="mb-3">
             <Form.Label>Nearby Landmark</Form.Label>
             <Form.Control
               value={form.landmark || ""}
@@ -376,7 +394,7 @@ export default function Dashboard() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2">
+          <Form.Group className="mb-3">
             <Form.Label>Contact Number</Form.Label>
             <Form.Control
               value={form.contact || ""}
@@ -386,7 +404,7 @@ export default function Dashboard() {
             />
           </Form.Group>
 
-          <Form.Group className="mb-2">
+          <Form.Group className="mb-3">
             <Form.Label>Upload Image</Form.Label>
             <Form.Control type="file" accept="image/*" onChange={handleImageChange} />
           </Form.Group>
@@ -400,7 +418,7 @@ export default function Dashboard() {
           <Form.Check
             type="checkbox"
             label="Report anonymously"
-            className="mb-3"
+            className="mb-4"
             checked={form.anonymous}
             onChange={(e) =>
               setForm({ ...form, anonymous: e.target.checked })

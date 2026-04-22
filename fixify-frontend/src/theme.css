@@ -11,7 +11,7 @@
   --card-border: rgba(0, 0, 0, 0.1);
 
   --navbar-bg: rgba(255, 255, 255, 0.6);
-  --accent: #0d6efd;
+  --accent: #28a745; /* Changed to green */
 
   --shadow: rgba(0, 0, 0, 0.1);
   --glass-border: rgba(255, 255, 255, 0.4);
@@ -26,7 +26,7 @@ html[data-theme="dark"] {
   --card-border: rgba(255, 255, 255, 0.08);
 
   --navbar-bg: rgba(20, 20, 28, 0.6);
-  --accent: #4dabff;
+  --accent: #20c997; /* Green for dark mode */
 
   --shadow: rgba(0, 0, 0, 0.6);
   --glass-border: rgba(255, 255, 255, 0.15);

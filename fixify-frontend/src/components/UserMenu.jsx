@@ -26,6 +26,11 @@ export default function UserMenu({ name = "User" }) {
     navigate("/login");     // ✅ redirect
   };
 
+  const goTo = (path) => {
+    setOpen(false);
+    navigate(path);
+  };
+
   return (
     <div ref={ref} style={{ position: "relative" }}>
       <div
@@ -54,9 +59,9 @@ export default function UserMenu({ name = "User" }) {
             zIndex: 999,
           }}
         >
-          <button style={btnStyle}>Profile</button>
-          <button style={btnStyle}>My Issues</button>
-          <button style={btnStyle}>Settings</button>
+          <button style={btnStyle} onClick={() => goTo("/profile")}>Profile</button>
+          <button style={btnStyle} onClick={() => goTo("/my-issues")}>My Issues</button>
+          <button style={btnStyle} onClick={() => goTo("/settings")}>Settings</button>
           <button
             style={{ ...btnStyle, color: "red" }}
             onClick={handleLogoutClick}

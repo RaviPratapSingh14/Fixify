@@ -48,6 +48,10 @@ public class IssueService {
         return repo.findByAssignedTo(username);
     }
 
+    public List<Issue> getByCreatedBy(String username) {
+        return repo.findByCreatedBy(username);
+    }
+
     // ===============================
     // 🆕 CREATE ISSUE (WITH IMAGE)
     // ===============================
@@ -59,8 +63,11 @@ public class IssueService {
         }
 
         // ✅ Initialize meta
+        long now = System.currentTimeMillis();
         issue.setStatus("NEW");
-        issue.setCreatedAt(System.currentTimeMillis());
+        issue.setCreatedAt(now);
+        issue.setReportedAt(now);
+        issue.setResolvedAt(null);
 
         // ✅ IMPORTANT: build GeoJSON point
         issue.updateLocation();
@@ -102,6 +109,11 @@ public class IssueService {
         }
 
         issue.setStatus(status);
+        if ("FIXED".equals(status)) {
+            issue.setResolvedAt(System.currentTimeMillis());
+        } else {
+            issue.setResolvedAt(null);
+        }
 
         issue.addTimelineEvent(new TimelineEvent(
                 "STATUS_CHANGED",
